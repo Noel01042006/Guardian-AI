@@ -615,11 +615,13 @@ const FeatureTestDashboard: React.FC = () => {
               <div className="flex items-start space-x-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-orange-500 mt-0.5" />
                 <div>
-                  <p className="font-medium text-orange-800 dark:text-orange-200">Production Ready</p>
-                  <p className="text-sm text-orange-700 dark:text-orange-300">
-                    All systems operational with comprehensive error handling and user-friendly interfaces.
-                  </p>
+            <p><strong>Firebase API Key:</strong> {import.meta.env.VITE_FIREBASE_API_KEY ? '✅ Configured' : '❌ Missing'}</p>
+            <p><strong>Firebase Project ID:</strong> {import.meta.env.VITE_FIREBASE_PROJECT_ID ? '✅ Configured' : '❌ Missing'}</p>
+            <p><strong>Gemini API Key:</strong> {import.meta.env.VITE_GEMINI_API_KEY ? '✅ Configured' : '❌ Missing'}</p>
+            <p><strong>OpenAI API Key:</strong> {import.meta.env.VITE_OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}</p>
                 </div>
+            <p><strong>Mode:</strong> {import.meta.env.MODE}</p>
+            <p><strong>Base URL:</strong> {import.meta.env.BASE_URL}</p>
               </div>
             </div>
           </div>

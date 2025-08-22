@@ -10,19 +10,25 @@ export class AIService {
 
   private constructor() {
     // Initialize API clients
-    this.geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY || null;
+    this.geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY?.trim() || null;
     
-    if (import.meta.env.VITE_OPENAI_API_KEY) {
+    const openaiKey = import.meta.env.VITE_OPENAI_API_KEY?.trim();
+    if (openaiKey) {
       this.openaiClient = new OpenAI({
-        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        apiKey: openaiKey,
         dangerouslyAllowBrowser: true
       });
-    } else {
-      console.warn('⚠️ OpenAI API key not found. AI responses will use mock data.');
     }
     
-    if (!this.geminiApiKey) {
-      console.warn('⚠️ Gemini API key not found. AI responses will use mock data.');
+    // Log API availability (without exposing keys)
+    console.log('🤖 AI Service Configuration:');
+    console.log(`   - Gemini API: ${this.geminiApiKey ? '✅ Available' : '❌ Not configured'}`);
+    console.log(`   - OpenAI API: ${this.openaiClient ? '✅ Available' : '❌ Not configured'}`);
+    console.log(`   - Environment: ${import.meta.env.PROD ? 'Production' : 'Development'}`);
+    
+    if (!this.geminiApiKey && !this.openaiClient) {
+      console.warn('⚠️ No AI API keys configured. Using enhanced mock responses.');
+      console.log('💡 For production, set VITE_GEMINI_API_KEY or VITE_OPENAI_API_KEY in your hosting platform.');
     }
     
     this.initializeScamDatabase();

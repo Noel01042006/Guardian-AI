@@ -2,6 +2,33 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
+// Environment variable validation and logging
+const validateEnvironmentVariables = () => {
+  const requiredVars = [
+    'VITE_FIREBASE_API_KEY',
+    'VITE_FIREBASE_AUTH_DOMAIN', 
+    'VITE_FIREBASE_PROJECT_ID'
+  ];
+  
+  const missing = requiredVars.filter(varName => !import.meta.env[varName]);
+  
+  if (missing.length > 0) {
+    console.warn('⚠️ Missing Firebase environment variables:', missing);
+    console.log('💡 For production deployment, ensure these are set in your hosting platform:');
+    missing.forEach(varName => console.log(`   - ${varName}`));
+  }
+  
+  // Log environment info (without exposing sensitive values)
+  console.log('🔧 Environment Info:');
+  console.log(`   - Mode: ${import.meta.env.MODE}`);
+  console.log(`   - Dev: ${import.meta.env.DEV}`);
+  console.log(`   - Prod: ${import.meta.env.PROD}`);
+  console.log(`   - Firebase configured: ${!!(import.meta.env.VITE_FIREBASE_API_KEY && import.meta.env.VITE_FIREBASE_PROJECT_ID)}`);
+};
+
+// Run validation
+validateEnvironmentVariables();
+
 // Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -41,14 +68,22 @@ if (isFirebaseConfigured) {
       }
     }
 
-    console.log('✅ Firebase initialized successfully with project:', firebaseConfig.projectId);
+    console.log('✅ Firebase initialized successfully');
+    console.log(`   - Project: ${firebaseConfig.projectId}`);
+    console.log(`   - Environment: ${import.meta.env.PROD ? 'Production' : 'Development'}`);
   } catch (error) {
     console.error('❌ Firebase initialization error:', error);
     throw error;
   }
 } else {
-  console.warn('⚠️ Firebase configuration incomplete. Missing required environment variables. Using mock services.');
-  console.log('Required variables: VITE_FIREBASE_API_KEY, VITE_FIREBASE_AUTH_DOMAIN, VITE_FIREBASE_PROJECT_ID');
+  console.warn('⚠️ Firebase configuration incomplete. Using mock services.');
+  console.log('📋 For production deployment, set these environment variables in your hosting platform:');
+  console.log('   - VITE_FIREBASE_API_KEY');
+  console.log('   - VITE_FIREBASE_AUTH_DOMAIN'); 
+  console.log('   - VITE_FIREBASE_PROJECT_ID');
+  console.log('   - VITE_FIREBASE_STORAGE_BUCKET');
+  console.log('   - VITE_FIREBASE_MESSAGING_SENDER_ID');
+  console.log('   - VITE_FIREBASE_APP_ID');
   
   // Create mock services for development
   auth = {

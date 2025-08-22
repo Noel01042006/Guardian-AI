@@ -50,6 +50,34 @@ The app will automatically use mock services if no Firebase config is provided.
 npm run dev
 ```
 
+## 🚀 Netlify Deployment
+
+### Environment Variables Setup
+When deploying to Netlify, add these environment variables in your Netlify dashboard:
+
+1. Go to **Site settings** > **Environment variables**
+2. Add each variable with your actual values:
+
+```
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_GEMINI_API_KEY=your_gemini_api_key
+VITE_OPENAI_API_KEY=your_openai_api_key
+```
+
+### Deployment Steps
+1. Connect your GitHub repository to Netlify
+2. Set build command: `npm run build`
+3. Set publish directory: `dist`
+4. Add environment variables as shown above
+5. Deploy!
+
+The `netlify.toml` file is already configured for optimal deployment.
+
 ## 🔧 Firebase Configuration
 
 ### Authentication Providers
